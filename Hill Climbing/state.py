@@ -4,4 +4,7 @@ class State:
         self.x = x
         self.y = y
 
-
+    
+    def state_evaluation(self):
+        tupl = matrix[self.x][self.y]
+        return (tupl[0] + tupl[1])/2
