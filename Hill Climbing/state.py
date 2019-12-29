@@ -6,7 +6,7 @@ class State:
 
     
     def state_evaluation(self):
-        tupl = matrix[self.x][self.y]
+        tupl = self.matrix[self.x][self.y]
         return (tupl[0] + tupl[1])/2
 
     def generate_neighbors(self):
