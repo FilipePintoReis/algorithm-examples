@@ -64,26 +64,28 @@ class Node:
         print("Node type: ", self.nodeType)
         if not self.foodValue is None: 
             print("Food amount: ", self.foodValue)
+            
+def populate():
+    graph = Graph()
+    graph.insertNode(
+        Node('source', 'source'),
+        [['node1', 2], ['node2', 5], ['node3', 1]]
+    )
+    graph.insertNode(
+        Node('node1', 'normal'),
+        [['node3', 2]]
+    )
+    graph.insertNode(
+        Node('node2', 'normal')
+    )
+    graph.insertNode(
+        Node('node3', 'normal')
+    )
+    graph.insertNode(
+        Node('food1', 'food', 50)
+    )
 
-graph = Graph()
-graph.insertNode(
-    Node('source', 'source'),
-    [['node1', 2], ['node2', 5], ['node3', 1]]
-)
-graph.insertNode(
-    Node('node1', 'normal'),
-    [['node3', 2]]
-)
-graph.insertNode(
-    Node('node2', 'normal')
-)
-graph.insertNode(
-    Node('node3', 'normal')
-)
-graph.insertNode(
-    Node('food1', 'food', 50)
-)
+    graph.createEdge('node1','food1', 3)
 
-graph.createEdge('node1','food1', 3)
 
-print(graph.getNode('source'))
+populate()
