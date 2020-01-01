@@ -3,26 +3,43 @@ from copy import copy, deepcopy
 import logic
 
 class Node:
-    def __init__(self, state, path):
+    def __init__(self, state, path, zeroX, zeroY):
         self.state = state
         self.path = path
         self.path.append(state)
+        self.heuristicValue = self.getHeuristic2()
+        self.zeroX = zeroX
+        self.zeroY = zeroY
         
     def getState(self):
         return deepcopy(self.state)
+
     def getPath(self):
         return deepcopy(self.path)
-        
+
     def getChildren(self):
         childs = []
-        if logic.canMoveR(self.state):
-            childs.append(logic.right(self.state))
-        if logic.canMoveL(self.state):
-            childs.append(logic.left(self.state))
-        if logic.canMoveD(self.state):
-            childs.append(logic.down(self.state))
-        if logic.canMoveU(self.state):
-            childs.append(logic.up(self.state))
+        newArU = deepcopy(self.state)
+        newArD = deepcopy(self.state)
+        newArL = deepcopy(self.state)
+        newArR = deepcopy(self.state)
+
+        if self.zeroX > 0:
+            newArL[self.zeroY][self.zeroX] = newArL[self.zeroY][self.zeroX - 1]
+            newArL[self.zeroY][self.zeroX - 1] = 0
+            childs.append(Node(newArL, self.getPath(), self.zeroX - 1, self.zeroY))
+        if self.zeroX < len(newArR) - 1:
+            newArR[self.zeroY][self.zeroX] = newArR[self.zeroY][self.zeroX + 1]
+            newArR[self.zeroY][self.zeroX + 1] = 0
+            childs.append(Node(newArR, self.getPath(), self.zeroX + 1, self.zeroY))
+        if self.zeroY > 0: 
+            newArU[self.zeroY][self.zeroX] = newArU[self.zeroY - 1][self.zeroX]
+            newArU[self.zeroY - 1][self.zeroX] = 0
+            childs.append(Node(newArU, self.getPath(), self.zeroX, self.zeroY - 1))
+        if self.zeroY < len(newArD) - 1:
+            newArD[self.zeroY][self.zeroX] = newArD[self.zeroY + 1][self.zeroX]
+            newArD[self.zeroY + 1][self.zeroX] = 0
+            childs.append(Node(newArD, self.getPath(), self.zeroX, self.zeroY + 1))
         return childs
     
     def getHeuristic1(self):
@@ -48,7 +65,7 @@ class Node:
         
 
     def getFinalValue(self):
-        return self.getHeuristic2()
+        return self.heuristicValue
 
     def getFinalValueAstar(self):
         return self.getHeuristic2() + len(self.getPath())

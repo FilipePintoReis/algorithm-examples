@@ -9,21 +9,29 @@ def slide_puzzle(ar):
     
 def solvingCycle(ar):
     q = PriorityQueue()
-    root = node.Node(ar,[])
+
+    coords = []
+    for i in range(0, len(ar)):
+        for k in range(0, len(ar)):
+            if ar[i][k] == 0:
+                coords.append(k)
+                coords.append(i)
+
+    root = node.Node(ar,[], coords[0], coords[1])
     
     q.put([root.getFinalValue(), root])
     obj = q.get()
-    visited = [ar]
+    visited = {logic.toKey(ar): 0}
     
     while not logic.solved(obj[1].getState()) == True:
         for child in obj[1].getChildren():
-            if child not in visited:
-                visited.append(child)
-                node1 = node.Node(child, obj[1].getPath())
-                q.put([node1.getFinalValue(), node1])
+            if not logic.toKey(child.getState()) in visited:
+                visited[logic.toKey(child.getState())] = 0
+                q.put([child.getFinalValue(), child])
         obj = q.get()
         
     print(obj[1].getState())
+    #print(obj[1].getPath())
 
     
 
@@ -49,4 +57,4 @@ puzzle3 = [
 ]
 
 #slide_puzzle(puzzle1)
-slide_puzzle(puzzle2)
+slide_puzzle(puzzle3)
