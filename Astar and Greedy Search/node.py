@@ -12,10 +12,10 @@ class Node:
         self.zeroY = zeroY
         
     def getState(self):
-        return deepcopy(self.state)
+        return self.state
 
     def getPath(self):
-        return deepcopy(self.path)
+        return self.path
 
     def getChildren(self):
         childs = []
@@ -68,7 +68,7 @@ class Node:
         return self.heuristicValue
 
     def getFinalValueAstar(self):
-        return self.getHeuristic2() + len(self.getPath())
+        return self.heuristicValue + len(self.getPath())
    
         
     def __lt__(self, other):
