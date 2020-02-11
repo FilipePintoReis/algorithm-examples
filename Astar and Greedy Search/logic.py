@@ -1,4 +1,5 @@
 from copy import copy, deepcopy
+from math import ceil
 
 def solved(ar):
     for i in range(0, len(ar)):
@@ -8,14 +9,17 @@ def solved(ar):
             if ar[i][k] != i * len(ar) + k + 1:
                 return False
         
-def manhattanDist(number, size, actualI, actualK):
-    num = deepcopy(number)
+def manhattanDist(number, size, i, k):
+    x = k
+    y = i
+    num = number
     if num == 0:
         num = size*size
-    i = number // size
-    k = number % size
     
-    return abs(i - actualI) + abs(k - actualK)
+    xaxis = abs(((x % size) + 1) -(((num - 1) % size) + 1))
+    yaxis = abs((ceil(num / size) - 1) - y)
+    
+    return xaxis + yaxis
 
 def toKey(ar):
     ret = ''
